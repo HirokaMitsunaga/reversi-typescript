@@ -19,6 +19,12 @@ app.get("/api/error", async (req, res) => {
   throw new Error("Error endpoint");
 });
 
+app.post("/api/games", async (req, res) => {
+  const startedAt = new Date();
+  console.log(`startedAt = ${startedAt}`);
+
+  res.status(201).end();
+});
 app.use(errorHandler);
 
 //3000番ポートでサーバーの起動を試みて、成功したらログ出力してる。
