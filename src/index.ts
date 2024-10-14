@@ -198,7 +198,7 @@ app.post("/api/games/latest/turns", async (req, res) => {
     //一巡目は、indexがyに対応
     //二巡目は、index,がxに対応
     const squaresInsertValues: any[] = [];
-    INITIAL_BOARD.forEach((line, y) => {
+    board.forEach((line, y) => {
       line.forEach((disc, x) => {
         squaresInsertValues.push(turnId);
         squaresInsertValues.push(x);
