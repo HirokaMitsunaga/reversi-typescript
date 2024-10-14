@@ -38,13 +38,7 @@ app.get("/api/error", async (req, res) => {
 app.post("/api/games", async (req, res) => {
   const now = new Date();
 
-  const conn = await mysql.createConnection({
-    host: "localhost",
-    database: "reversi",
-    user: "reversi",
-    password: "password",
-  });
-
+  const conn = await connectMySQL();
   try {
     await conn.beginTransaction();
 
@@ -94,6 +88,49 @@ app.post("/api/games", async (req, res) => {
 
   res.status(201).end();
 });
+
+app.get("/api/games/latest/turns/:turnCount", async (req, res) => {
+  const turnCount = parseInt(req.params.turnCount);
+  const conn = await connectMySQL();
+  try {
+    //最新の対戦の取得
+    const gameSelectResult = await conn.execute<mysql.RowDataPacket[]>(
+      "select id, started_at from games order by id desc limit 1"
+    );
+    const game = gameSelectResult[0][0];
+    console.log(game);
+
+    const turnSelectResult = await conn.execute<mysql.RowDataPacket[]>(
+      "select id, game_id, turn_count, next_disc, end_at from turns where game_id = ? and turn_count = ?",
+      [game["id"], turnCount]
+    );
+    const turn = turnSelectResult[0][0];
+
+    const squareSelectResult = await conn.execute<mysql.RowDataPacket[]>(
+      "select id, turn_id, x, y, disc from squares where turn_id = ?",
+      [turn["id"]]
+    );
+
+    const squares = squareSelectResult[0];
+    //8x8の二次元配列を作成し、x,y、discを入れいていく
+    const board = Array.from(Array(8)).map(() => Array.from(Array(8)));
+    squares.forEach((s) => {
+      board[s.y][s.x] = s.disc;
+    });
+
+    const responseBody = {
+      turnCount,
+      board,
+      nextDisc: turn["next_disk"],
+      //TODO: 決着がついている場合、game_result Tableから取得する
+      wiinerdisk: null,
+    };
+    res.json(responseBody);
+  } finally {
+    await conn.end();
+  }
+});
+
 app.use(errorHandler);
 
 //3000番ポートでサーバーの起動を試みて、成功したらログ出力してる。
@@ -110,5 +147,14 @@ function errorHandler(
   console.error("Unexpected error occured", err);
   res.status(500).send({
     message: "Unexpexted error occurred",
+  });
+}
+
+async function connectMySQL() {
+  return await mysql.createConnection({
+    host: "localhost",
+    database: "reversi",
+    user: "reversi",
+    password: "password",
   });
 }
