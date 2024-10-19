@@ -16,11 +16,11 @@ export class GameGateway {
   }
 
   async insert(conn: mysql.Connection, startedAt: Date): Promise<GameRecord> {
-    const gameInsertRusult = await conn.execute<mysql.OkPacket>(
+    const gameInsertResult = await conn.execute<mysql.OkPacket>(
       "insert into games (started_at) values (?)",
       [startedAt]
     );
-    const gameId = gameInsertRusult[0].insertId;
+    const gameId = gameInsertResult[0].insertId;
 
     return new GameRecord(gameId, startedAt);
   }
