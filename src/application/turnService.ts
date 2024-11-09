@@ -5,6 +5,10 @@ import { MoveGateway } from "../dataaccess/moveGateway.js";
 import { SquareGateway } from "../dataaccess/squareGateway.js";
 import { TurnGateway } from "../dataaccess/turnGateway.js";
 import { DARK, LIGHT } from "./constants.js";
+import { Turn } from "../domain/turn.js";
+import { Board } from "../domain/board.js";
+import { toDisc } from "../domain/disc.js";
+import { Point } from "../domain/point.js";
 
 export const turnRouter = express.Router();
 
@@ -109,25 +113,28 @@ export class TurnService {
         board[s.y][s.x] = s.disc;
       });
 
-      // TODO 盤面に置けるかチェック
+      const previousTurn = new Turn(
+        gameRecord.id,
+        previousTurnCount,
+        toDisc(previousTurnRecord.nextDisc),
+        undefined,
+        new Board(board),
+        previousTurnRecord.endAt
+      );
 
-      // 石を置く
-      board[y][x] = disc;
-
-      // TODO ひっくり返す
+      //石を置く
+      const newTurn = previousTurn.placeNext(toDisc(disc), new Point(x, y));
 
       // ターンを保存する
-      const nextDisc = disc === DARK ? LIGHT : DARK;
-      const now = new Date();
 
       const turnRecord = await turnGateway.insert(
         conn,
-        gameRecord.id,
-        turnCount,
-        nextDisc,
-        now
+        newTurn.gameId,
+        newTurn.turnCount,
+        newTurn.nextDisc,
+        newTurn.endAt
       );
-      await squareGateway.insertAll(conn, turnRecord.id, board);
+      await squareGateway.insertAll(conn, turnRecord.id, newTurn.board.discs);
       await moveGateway.insert(conn, turnRecord.id, disc, x, y);
 
       await conn.commit();
