@@ -1,4 +1,5 @@
-import { Board } from "./board.js";
+import { INITIAL_BOARD } from "../application/constants.js";
+import { Board, initialBoard } from "./board.js";
 import { Disc } from "./disc.js";
 import { Move } from "./move.js";
 import { Point } from "./point.js";
@@ -58,4 +59,8 @@ export class Turn {
   get endAt() {
     return this._endAt;
   }
+}
+
+export function firstTurn(gameId: number, endAt: Date): Turn {
+  return new Turn(gameId, 0, Disc.Dark, undefined, initialBoard, endAt);
 }

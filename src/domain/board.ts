@@ -26,3 +26,22 @@ export class Board {
     return this._discs;
   }
 }
+
+const E = Disc.Empty;
+const D = Disc.Dark;
+const L = Disc.Light;
+
+const INITIAL_BOARD = [
+  [E, E, E, E, E, E, E, E],
+  [E, E, E, E, E, E, E, E],
+  [E, E, E, E, E, E, E, E],
+  [E, E, E, D, L, E, E, E],
+  [E, E, E, L, D, E, E, E],
+  [E, E, E, E, E, E, E, E],
+  [E, E, E, E, E, E, E, E],
+  [E, E, E, E, E, E, E, E],
+];
+
+//_discsはborad内部で持つべき値のため、board.tsの外に出したくない。
+//そのため、new Boradとした状態で公開する。
+export const initialBoard = new Board(INITIAL_BOARD);
