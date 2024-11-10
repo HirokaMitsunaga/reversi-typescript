@@ -1,9 +1,9 @@
 import express from "express";
 import { connectMySQL } from "../dataaccess/connection.js";
 import { GameGateway } from "../dataaccess/gameGateway.js";
-import { toDisc } from "../domain/disc.js";
-import { Point } from "../domain/point.js";
-import { TurnRepository } from "../domain/turnRepository.js";
+import { toDisc } from "../domain/turn/disc.js";
+import { Point } from "../domain/turn/point.js";
+import { TurnRepository } from "../domain/turn/turnRepository.js";
 
 export const turnRouter = express.Router();
 

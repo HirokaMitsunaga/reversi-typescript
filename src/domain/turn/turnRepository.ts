@@ -1,9 +1,9 @@
 import mysql from "mysql2/promise";
 import { Turn } from "./turn.js";
 
-import { MoveGateway } from "../dataaccess/moveGateway.js";
-import { SquareGateway } from "../dataaccess/squareGateway.js";
-import { TurnGateway } from "../dataaccess/turnGateway.js";
+import { MoveGateway } from "../../dataaccess/moveGateway.js";
+import { SquareGateway } from "../../dataaccess/squareGateway.js";
+import { TurnGateway } from "../../dataaccess/turnGateway.js";
 import { Move } from "./move.js";
 import { toDisc } from "./disc.js";
 import { Point } from "./point.js";

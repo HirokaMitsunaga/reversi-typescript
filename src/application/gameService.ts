@@ -1,7 +1,7 @@
 import { GameGateway } from "../dataaccess/gameGateway.js";
 import { connectMySQL } from "../dataaccess/connection.js";
-import { TurnRepository } from "../domain/turnRepository.js";
-import { firstTurn } from "../domain/turn.js";
+import { TurnRepository } from "../domain/turn/turnRepository.js";
+import { firstTurn } from "../domain/turn/turn.js";
 
 const gameGateway = new GameGateway();
 

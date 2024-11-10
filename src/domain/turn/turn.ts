@@ -1,4 +1,4 @@
-import { INITIAL_BOARD } from "../application/constants.js";
+import { INITIAL_BOARD } from "../../application/constants.js";
 import { Board, initialBoard } from "./board.js";
 import { Disc } from "./disc.js";
 import { Move } from "./move.js";
