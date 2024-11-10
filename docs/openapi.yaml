@@ -1,4 +1,4 @@
-openapi: "3.0.3"
+openapi: '3.0.3'
 
 info:
   title: udemy-reversi-webapp
@@ -65,7 +65,7 @@ paths:
                         [0, 0, 0, 2, 1, 0, 0, 0],
                         [0, 0, 0, 0, 0, 0, 0, 0],
                         [0, 0, 0, 0, 0, 0, 0, 0],
-                        [0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0]
                       ]
                   nextDisc:
                     type: integer
