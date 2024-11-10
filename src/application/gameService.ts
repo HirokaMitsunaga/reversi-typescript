@@ -2,9 +2,10 @@ import { GameGateway } from "../dataaccess/gameGateway.js";
 import { connectMySQL } from "../dataaccess/connection.js";
 import { TurnRepository } from "../domain/turn/turnRepository.js";
 import { firstTurn } from "../domain/turn/turn.js";
+import { GameRepository } from "../domain/game/gameRepository.js";
+import { Game } from "../domain/game/game.js";
 
-const gameGateway = new GameGateway();
-
+const gameRepository = new GameRepository();
 const turnRepository = new TurnRepository();
 
 export class GameServive {
@@ -15,9 +16,12 @@ export class GameServive {
     try {
       await conn.beginTransaction();
 
-      const gameRecord = await gameGateway.insert(conn, now);
+      const game = await gameRepository.save(conn, new Game(undefined, now));
+      if (!game.id) {
+        throw new Error("game.id not exits ");
+      }
 
-      const turn = firstTurn(gameRecord.id, now);
+      const turn = firstTurn(game.id, now);
 
       await turnRepository.save(conn, turn);
       await conn.commit();

@@ -4,12 +4,15 @@ import { GameGateway } from "../dataaccess/gameGateway.js";
 import { toDisc } from "../domain/turn/disc.js";
 import { Point } from "../domain/turn/point.js";
 import { TurnRepository } from "../domain/turn/turnRepository.js";
+import { GameRepository } from "../domain/game/gameRepository.js";
 
 export const turnRouter = express.Router();
 
 const gameGateway = new GameGateway();
 
 const turnRepository = new TurnRepository();
+const gameRepository = new GameRepository();
+
 class FindLatestGameTurnByTurnCountOutput {
   constructor(
     private _turnCount: number,
@@ -41,14 +44,17 @@ export class TurnService {
   ): Promise<FindLatestGameTurnByTurnCountOutput> {
     const conn = await connectMySQL();
     try {
-      const gameRecord = await gameGateway.findLatest(conn);
-      if (!gameRecord) {
+      const game = await gameRepository.findLatest(conn);
+      if (!game) {
         throw new Error("Latest game not found");
+      }
+      if (!game.id) {
+        throw new Error("game.id not exist");
       }
 
       const turn = await turnRepository.findForGameIdAndTurnCount(
         conn,
-        gameRecord.id,
+        game.id,
         turnCount
       );
 
@@ -70,15 +76,18 @@ export class TurnService {
       await conn.beginTransaction();
 
       // 1つ前のターンを取得する
-      const gameRecord = await gameGateway.findLatest(conn);
-      if (!gameRecord) {
+      const game = await gameRepository.findLatest(conn);
+      if (!game) {
         throw new Error("Latest game not found");
+      }
+      if (!game.id) {
+        throw new Error("game.id not exist");
       }
 
       const previousTurnCount = turnCount - 1;
       const previousTurn = await turnRepository.findForGameIdAndTurnCount(
         conn,
-        gameRecord.id,
+        game.id,
         previousTurnCount
       );
       //石を置く
