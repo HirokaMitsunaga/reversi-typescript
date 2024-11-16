@@ -1,5 +1,5 @@
-import { GameGateway } from "../dataaccess/gameGateway.js";
-import { connectMySQL } from "../dataaccess/connection.js";
+import { GameGateway } from "../infrastructure/gameGateway.js";
+import { connectMySQL } from "../infrastructure/connection.js";
 import { TurnRepository } from "../domain/turn/turnRepository.js";
 import { firstTurn } from "../domain/turn/turn.js";
 import { GameRepository } from "../domain/game/gameRepository.js";

@@ -1,6 +1,6 @@
 import express from "express";
-import { connectMySQL } from "../dataaccess/connection.js";
-import { GameGateway } from "../dataaccess/gameGateway.js";
+import { connectMySQL } from "../infrastructure/connection.js";
+import { GameGateway } from "../infrastructure/gameGateway.js";
 import { toDisc } from "../domain/turn/disc.js";
 import { Point } from "../domain/turn/point.js";
 import { TurnRepository } from "../domain/turn/turnRepository.js";
