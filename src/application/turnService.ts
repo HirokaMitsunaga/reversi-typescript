@@ -1,10 +1,10 @@
 import express from "express";
 import { connectMySQL } from "../infrastructure/connection.js";
 import { GameGateway } from "../infrastructure/gameGateway.js";
-import { toDisc } from "../domain/turn/disc.js";
-import { Point } from "../domain/turn/point.js";
-import { TurnRepository } from "../domain/turn/turnRepository.js";
-import { GameRepository } from "../domain/game/gameRepository.js";
+import { toDisc } from "../domain/model/turn/disc.js";
+import { Point } from "../domain/model/turn/point.js";
+import { TurnRepository } from "../domain/model/turn/turnRepository.js";
+import { GameRepository } from "../domain/model/game/gameRepository.js";
 
 export const turnRouter = express.Router();
 

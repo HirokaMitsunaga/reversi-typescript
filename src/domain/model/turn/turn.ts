@@ -1,3 +1,4 @@
+import { DomainError } from "../../eroor/domainError.js";
 import { Board, initialBoard } from "./board.js";
 import { Disc } from "./disc.js";
 import { Move } from "./move.js";
@@ -16,7 +17,10 @@ export class Turn {
   placeNext(disc: Disc, point: Point): Turn {
     //打とうとした石が、次の石でない場合、置くことができない
     if (disc !== this._nextDisc) {
-      throw new Error("invalid disc");
+      throw new DomainError(
+        "SelectedDiscIsNotNextDisc",
+        "Selected disc is not next disc"
+      );
     }
     const move = new Move(disc, point);
 
