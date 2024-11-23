@@ -1,7 +1,7 @@
 import express from "express";
 import { connectMySQL } from "../../infrastructure/connection.js";
 import { GameGateway } from "../../infrastructure/gameGateway.js";
-import { toDisc } from "../../domain/model/turn/disc.js";
+import { Disc, toDisc } from "../../domain/model/turn/disc.js";
 import { Point } from "../../domain/model/turn/point.js";
 import { TurnRepository } from "../../domain/model/turn/turnRepository.js";
 import { GameRepository } from "../../domain/model/game/gameRepository.js";
@@ -74,7 +74,7 @@ export class TurnService {
     }
   }
 
-  async registerTurn(turnCount: number, disc: number, x: number, y: number) {
+  async registerTurn(turnCount: number, disc: Disc, point: Point) {
     const conn = await connectMySQL();
     try {
       await conn.beginTransaction();
@@ -98,8 +98,7 @@ export class TurnService {
         previousTurnCount
       );
       //石を置く
-      const newTurn = previousTurn.placeNext(toDisc(disc), new Point(x, y));
-
+      const newTurn = previousTurn.placeNext(disc, point);
       // ターンを保存する
       await turnRepository.save(conn, newTurn);
 
