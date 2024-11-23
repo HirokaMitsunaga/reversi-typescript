@@ -1,5 +1,5 @@
 import express from "express";
-import { TurnService } from "../application/turnService.js";
+import { TurnService } from "../application/service/turnService.js";
 
 export const turnRouter = express.Router();
 

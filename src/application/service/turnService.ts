@@ -1,10 +1,11 @@
 import express from "express";
-import { connectMySQL } from "../infrastructure/connection.js";
-import { GameGateway } from "../infrastructure/gameGateway.js";
-import { toDisc } from "../domain/model/turn/disc.js";
-import { Point } from "../domain/model/turn/point.js";
-import { TurnRepository } from "../domain/model/turn/turnRepository.js";
-import { GameRepository } from "../domain/model/game/gameRepository.js";
+import { connectMySQL } from "../../infrastructure/connection.js";
+import { GameGateway } from "../../infrastructure/gameGateway.js";
+import { toDisc } from "../../domain/model/turn/disc.js";
+import { Point } from "../../domain/model/turn/point.js";
+import { TurnRepository } from "../../domain/model/turn/turnRepository.js";
+import { GameRepository } from "../../domain/model/game/gameRepository.js";
+import { ApplicationError } from "../error/applicationError.js";
 
 export const turnRouter = express.Router();
 
@@ -46,7 +47,10 @@ export class TurnService {
     try {
       const game = await gameRepository.findLatest(conn);
       if (!game) {
-        throw new Error("Latest game not found");
+        throw new ApplicationError(
+          "LatestGameNotFound",
+          "Latest game not found"
+        );
       }
       if (!game.id) {
         throw new Error("game.id not exist");
@@ -78,7 +82,10 @@ export class TurnService {
       // 1つ前のターンを取得する
       const game = await gameRepository.findLatest(conn);
       if (!game) {
-        throw new Error("Latest game not found");
+        throw new ApplicationError(
+          "LatestGameNotFound",
+          "Latest game not found"
+        );
       }
       if (!game.id) {
         throw new Error("game.id not exist");

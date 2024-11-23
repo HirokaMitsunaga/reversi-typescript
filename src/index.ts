@@ -5,6 +5,7 @@ import { gameRouter } from "./presentation/gameRouter.js";
 import { turnRouter } from "./presentation/turnRouter.js";
 import { DomainError } from "./domain/eroor/domainError.js";
 import { error } from "console";
+import { ApplicationError } from "./application/error/applicationError.js";
 
 const PORT = 3000;
 
@@ -35,6 +36,17 @@ function errorHandler(
       message: err.message,
     });
     return;
+  }
+
+  if (err instanceof ApplicationError) {
+    switch (err.type) {
+      case "LatestGameNotFound":
+        res.status(404).json({
+          type: err.type,
+          message: err.message,
+        });
+        return;
+    }
   }
   console.error("Unexpected error occurred", err);
   res.status(500).send({
