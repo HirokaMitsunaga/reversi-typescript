@@ -6,7 +6,9 @@
   "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon"
+    "start": "nodemon",
+    "build": "tsc",
+    "debug": "tsc && node --inspect dist/index.js"
   },
   "keywords": [],
   "author": "",
