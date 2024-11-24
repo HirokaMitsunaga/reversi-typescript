@@ -4,12 +4,12 @@ import { Game } from "../../domain/model/game/game.js";
 import { GameRepository } from "../../domain/model/game/gameRepository.js";
 import { TurnRepository } from "../../domain/model/turn/turnRepository.js";
 
-export class GameServive {
+export class StartNewGameUseCase {
   constructor(
     private _gameRepository: GameRepository,
     private _turnRepository: TurnRepository
   ) {}
-  async startGame() {
+  async run() {
     const now = new Date();
 
     const conn = await connectMySQL();
