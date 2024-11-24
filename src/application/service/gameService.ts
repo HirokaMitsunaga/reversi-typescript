@@ -1,12 +1,11 @@
-import { GameGateway } from "../../infrastructure/gameGateway.js";
 import { connectMySQL } from "../../infrastructure/connection.js";
-import { TurnRepository } from "../../domain/model/turn/turnRepository.js";
 import { firstTurn } from "../../domain/model/turn/turn.js";
-import { GameRepository } from "../../domain/model/game/gameRepository.js";
 import { Game } from "../../domain/model/game/game.js";
+import { GameMySQLRepository } from "../../infrastructure/repository/game/gameMySQLRepository.js";
+import { TurnMySQLRepository } from "../../infrastructure/repository/turn/turnMySQLRepository.js";
 
-const gameRepository = new GameRepository();
-const turnRepository = new TurnRepository();
+const gameRepository = new GameMySQLRepository();
+const turnRepository = new TurnMySQLRepository();
 
 export class GameServive {
   async startGame() {

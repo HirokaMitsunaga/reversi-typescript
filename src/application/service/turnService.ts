@@ -1,21 +1,15 @@
-import express from "express";
 import { connectMySQL } from "../../infrastructure/connection.js";
-import { GameGateway } from "../../infrastructure/gameGateway.js";
-import { Disc, toDisc } from "../../domain/model/turn/disc.js";
+import { Disc } from "../../domain/model/turn/disc.js";
 import { Point } from "../../domain/model/turn/point.js";
-import { TurnRepository } from "../../domain/model/turn/turnRepository.js";
-import { GameRepository } from "../../domain/model/game/gameRepository.js";
 import { ApplicationError } from "../error/applicationError.js";
-import { GameResultRepository } from "../../domain/model/gameResult/gameResultRepository.js";
 import { GameResult } from "../../domain/model/gameResult/gameResult.js";
+import { TurnMySQLRepository } from "../../infrastructure/repository/turn/turnMySQLRepository.js";
+import { GameMySQLRepository } from "../../infrastructure/repository/game/gameMySQLRepository.js";
+import { GameResultMySQLRepository } from "../../infrastructure/repository/gameResult/gameResultMySQLRepository.js";
 
-// export const turnRouter = express.Router();
-
-// const gameGateway = new GameGateway();
-
-const turnRepository = new TurnRepository();
-const gameRepository = new GameRepository();
-const gameResultRepository = new GameResultRepository();
+const turnRepository = new TurnMySQLRepository();
+const gameRepository = new GameMySQLRepository();
+const gameResultRepository = new GameResultMySQLRepository();
 
 class FindLatestGameTurnByTurnCountOutput {
   constructor(
